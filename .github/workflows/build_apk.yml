@@ -16,13 +16,14 @@ jobs:
           channel: stable
           flutter-version: '3.35.1'
       
-      - name: Fix android folder
+      - name: Rebuild android folder clean
         run: |
-          flutter create . --platforms=android
+          rm -rf android
+          flutter create . --platforms=android --project-name kerani_sawit --org com.palangkaraya
           flutter pub get
           
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --verbose
 
       - name: Upload APK
         uses: actions/upload-artifact@v4

@@ -15,10 +15,17 @@ jobs:
         with:
           channel: stable
           flutter-version: '3.35.1'
-      - run: flutter --version
-      - run: flutter pub get
-      - run: flutter build apk --release
-      - uses: actions/upload-artifact@v4
+      
+      - name: Fix android folder
+        run: |
+          flutter create . --platforms=android
+          flutter pub get
+          
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: kerani-sawit-apk
           path: build/app/outputs/flutter-apk/app-release.apk

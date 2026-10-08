@@ -511,6 +511,7 @@ class _DataTrukScreenState extends State<DataTrukScreen> {
                               janjangF: janjangF,
                               save: _save,
                               saving: saving,
+                              formEnabled: truks.isNotEmpty && bloks.isNotEmpty,
                             ),
                             SizedBox(height: metrics.sectionGap),
                             if (t != null)
@@ -521,6 +522,11 @@ class _DataTrukScreenState extends State<DataTrukScreen> {
                                 total: total,
                                 grouped: grouped,
                                 onLongPress: _showItemMenu,
+                              )
+                            else
+                              _EmptyRekapPanel(
+                                compact: metrics.compact,
+                                noTruckMaster: truks.isEmpty,
                               ),
                           ],
                         ),
@@ -683,6 +689,7 @@ class _InputPanel extends StatelessWidget {
   final FocusNode janjangF;
   final VoidCallback save;
   final bool saving;
+  final bool formEnabled;
 
   const _InputPanel({
     required this.compact,
@@ -701,6 +708,7 @@ class _InputPanel extends StatelessWidget {
     required this.janjangF,
     required this.save,
     required this.saving,
+    required this.formEnabled,
   });
 
   Widget _iconBox(IconData icon) {
@@ -1040,15 +1048,16 @@ class _InputPanel extends StatelessWidget {
           SizedBox(
             height: compact ? 40 : 42,
             child: FilledButton(
-              onPressed: saving ? null : save,
+              onPressed: saving || !formEnabled ? null : save,
               style: FilledButton.styleFrom(
                 backgroundColor: const Color(0xFF0D7138),
                 foregroundColor: Colors.white,
-                disabledBackgroundColor: const Color(0xFF73A985),
+                disabledBackgroundColor: const Color(0xFFDDE9DF),
+                disabledForegroundColor: const Color(0xFF78907D),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),
-                elevation: 1.5,
+                elevation: formEnabled ? 1.5 : 0,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1056,8 +1065,8 @@ class _InputPanel extends StatelessWidget {
                   Container(
                     width: compact ? 26 : 27,
                     height: compact ? 26 : 27,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: formEnabled ? 1 : .72),
                       shape: BoxShape.circle,
                     ),
                     child: saving
@@ -1068,7 +1077,11 @@ class _InputPanel extends StatelessWidget {
                               color: green,
                             ),
                           )
-                        : const Icon(Icons.add_rounded, color: green, size: 19),
+                        : Icon(
+                            Icons.add_rounded,
+                            color: formEnabled ? green : const Color(0xFF78907D),
+                            size: 19,
+                          ),
                   ),
                   SizedBox(width: compact ? 10 : 11),
                   Text(
@@ -1209,6 +1222,13 @@ class _SummaryPanel extends StatelessWidget {
           total: total,
         ),
         SizedBox(height: compact ? 7 : 8),
+        if (grouped.isEmpty)
+          _CompactEmptyCard(
+            compact: compact,
+            icon: Icons.local_shipping_outlined,
+            title: 'Belum ada muatan',
+            subtitle: 'Muatan yang ditambahkan akan tampil di sini.',
+          ),
         ...grouped.entries.map((entry) {
           final subtotal = entry.value.fold(0, (sum, item) => sum + item.janjang);
           return Padding(
@@ -1223,6 +1243,148 @@ class _SummaryPanel extends StatelessWidget {
           );
         }),
       ],
+    );
+  }
+}
+
+class _EmptyRekapPanel extends StatelessWidget {
+  final bool compact;
+  final bool noTruckMaster;
+
+  const _EmptyRekapPanel({
+    required this.compact,
+    required this.noTruckMaster,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Divider(height: 1, color: Color(0xFFDDE5DD)),
+        SizedBox(height: compact ? 10 : 11),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'REKAP MUATAN TRUK',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: const Color(0xFF172119),
+                  fontSize: compact ? 15.0 : 15.8,
+                  height: 1.05,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'Daftar muatan untuk truk dan tanggal ini',
+                  maxLines: 1,
+                  style: TextStyle(
+                    color: const Color(0xFF748078),
+                    fontSize: compact ? 8.8 : 9.5,
+                    height: 1.05,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: compact ? 7 : 8),
+        _CompactEmptyCard(
+          compact: compact,
+          icon: noTruckMaster
+              ? Icons.local_shipping_outlined
+              : Icons.receipt_long_outlined,
+          title: noTruckMaster ? 'Master truk belum tersedia' : 'Pilih truk terlebih dahulu',
+          subtitle: noTruckMaster
+              ? 'Tambahkan Master Truk agar pencatatan muatan dapat digunakan.'
+              : 'Pilih truk untuk menampilkan rekap muatan pada tanggal ini.',
+        ),
+      ],
+    );
+  }
+}
+
+class _CompactEmptyCard extends StatelessWidget {
+  final bool compact;
+  final IconData icon;
+  final String title;
+  final String subtitle;
+
+  const _CompactEmptyCard({
+    required this.compact,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: compact ? 12 : 14,
+        vertical: compact ? 11 : 12,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FBF8),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFE1E8E1), width: .9),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: compact ? 34 : 36,
+            height: compact ? 34 : 36,
+            decoration: const BoxDecoration(
+              color: Color(0xFFEAF6EC),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              color: const Color(0xFF3F7950),
+              size: compact ? 18 : 19,
+            ),
+          ),
+          SizedBox(width: compact ? 10 : 11),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: const Color(0xFF253128),
+                    fontSize: compact ? 11.7 : 12.3,
+                    height: 1.1,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  subtitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: const Color(0xFF7B857E),
+                    fontSize: compact ? 9.2 : 9.8,
+                    height: 1.25,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

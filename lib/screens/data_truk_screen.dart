@@ -479,7 +479,7 @@ class _DataTrukScreenState extends State<DataTrukScreen> {
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(
                           metrics.pagePadding,
-                          0,
+                          metrics.compact ? 5 : 6,
                           metrics.pagePadding,
                           28,
                         ),
@@ -721,7 +721,7 @@ class _InputPanel extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         color: const Color(0xFFEAF6EC),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(9),
       ),
       child: Icon(icon, color: green, size: compact ? 17.5 : 18.5),
     );
@@ -735,14 +735,14 @@ class _InputPanel extends StatelessWidget {
     bool active = false,
     VoidCallback? onTap,
   }) {
-    final radius = BorderRadius.circular(16);
+    final radius = BorderRadius.circular(14);
     final box = Container(
-      constraints: BoxConstraints(minHeight: compact ? 40 : 42),
+      constraints: BoxConstraints(minHeight: compact ? 45 : 47),
       padding: EdgeInsets.fromLTRB(
         compact ? 6 : 6.5,
-        4,
+        5,
         compact ? 8 : 9,
-        4,
+        5,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -863,7 +863,7 @@ class _InputPanel extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: const Color(0xFFFDFEFD),
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: .035),
@@ -1049,7 +1049,7 @@ class _InputPanel extends StatelessWidget {
           ),
           SizedBox(height: compact ? 8 : 9),
           SizedBox(
-            height: compact ? 40 : 42,
+            height: compact ? 44 : 46,
             child: FilledButton(
               onPressed: saving || !formEnabled ? null : save,
               style: FilledButton.styleFrom(
@@ -1058,7 +1058,7 @@ class _InputPanel extends StatelessWidget {
                 disabledBackgroundColor: const Color(0xFFDDE9DF),
                 disabledForegroundColor: const Color(0xFF78907D),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(13),
                 ),
                 elevation: formEnabled ? 1.5 : 0,
               ),

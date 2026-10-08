@@ -472,7 +472,10 @@ class _DataTrukScreenState extends State<DataTrukScreen> {
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 620),
                     child: Transform.translate(
-                      offset: const Offset(0, -10),
+                      // Keep the form below the header instead of pulling it upward.
+                      // This gives the INPUT DATA TRUK title the same breathing room
+                      // as the visual reference.
+                      offset: Offset.zero,
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(
                           metrics.pagePadding,
@@ -854,7 +857,7 @@ class _InputPanel extends StatelessWidget {
     return Container(
       padding: EdgeInsets.fromLTRB(
         compact ? 12 : 13,
-        compact ? 10 : 11,
+        compact ? 16 : 17,
         compact ? 12 : 13,
         compact ? 12 : 13,
       ),

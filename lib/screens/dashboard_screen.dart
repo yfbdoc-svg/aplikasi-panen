@@ -187,7 +187,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _header(_DashboardMetrics m) {
     final width = MediaQuery.sizeOf(context).width;
     // Proporsi header mengikuti mockup: sekitar 35.5% dari lebar layar.
-    // BoxFit.cover menjaga rasio gambar dan alignment kanan menjaga pohon utama.
+    // Tinggi mengikuti mockup; ilustrasi dirender fitWidth agar tidak ter-zoom.
     final headerHeight = (width * 0.355).clamp(126.0, 178.0);
     final left = width >= 600 ? 30.0 : (m.narrow ? 18.0 : 22.0);
 
@@ -197,10 +197,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/headers/dashboard_header_user.png',
-            fit: BoxFit.cover,
-            alignment: Alignment.centerRight,
+          // Mockup memakai komposisi ilustrasi yang lebih lebar: pohon utama
+          // lebih kecil dan tetap berada di sisi kanan. BoxFit.cover membuat
+          // asset 2048x605 ter-zoom pada layar ponsel, jadi gunakan fitWidth
+          // dan tempelkan ke bawah. Area langit yang tersisa di atas diisi
+          // oleh warna dasar header agar tinggi header tetap sama.
+          const ColoredBox(color: Color(0xFF287D3D)),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Image.asset(
+              'assets/headers/dashboard_header_user.png',
+              width: double.infinity,
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.bottomCenter,
+            ),
           ),
           Container(
             decoration: BoxDecoration(
@@ -225,7 +235,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: m.narrow ? 24.5 : (m.compact ? 27.5 : 31),
+                fontSize: m.narrow ? 23.8 : (m.compact ? 26.6 : 29.5),
                 fontWeight: FontWeight.w900,
                 height: 1,
                 letterSpacing: -.55,
@@ -242,7 +252,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.white.withValues(alpha: .97),
-                fontSize: m.narrow ? 12.2 : (m.compact ? 13.2 : 14.8),
+                fontSize: m.narrow ? 11.9 : (m.compact ? 12.9 : 14.2),
                 fontWeight: FontWeight.w500,
                 height: 1.05,
               ),

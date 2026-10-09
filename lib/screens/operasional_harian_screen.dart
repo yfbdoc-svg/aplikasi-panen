@@ -431,7 +431,7 @@ class _OperasionalHarianScreenState extends State<OperasionalHarianScreen> {
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(
                           horizontal,
-                          7,
+                          14,
                           horizontal,
                           24,
                         ),

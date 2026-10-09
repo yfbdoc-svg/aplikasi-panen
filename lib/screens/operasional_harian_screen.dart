@@ -791,7 +791,7 @@ class _InstructionCard extends StatelessWidget {
           SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Pilih blok panen, lalu tambahkan pemanen yang bekerja di blok tersebut. Pemanen yang sama boleh dipilih pada lebih dari satu blok.',
+              'Pilih blok panen, lalu tambahkan pemanen yang bekerja di blok tersebut.',
               style: TextStyle(
                 color: Color(0xFF2B332D),
                 fontSize: 12.5,

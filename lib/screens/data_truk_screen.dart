@@ -615,9 +615,9 @@ class _DataTrukHeader extends StatelessWidget {
             top: topInset + 6,
             child: Material(
               color: Colors.white.withValues(alpha: .14),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(7),
               child: InkWell(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(7),
                 onTap: onBack,
                 child: SizedBox(
                   width: compact ? 34 : 36,
@@ -958,7 +958,7 @@ class _InputPanel extends StatelessWidget {
             label: 'Nama Truk',
             icon: Icons.local_shipping_rounded,
             value: trukValue,
-            hint: truks.isEmpty ? 'Belum ada master truk' : 'Pilih truk',
+            hint: truks.isEmpty ? 'Belum ada data truk' : 'Pilih truk',
             items: truks
                 .map(
                   (x) => DropdownMenuItem<String>(
@@ -978,7 +978,7 @@ class _InputPanel extends StatelessWidget {
             label: 'Blok',
             icon: Icons.location_on_rounded,
             value: blokValue,
-            hint: bloks.isEmpty ? 'Absensi belum tersedia' : 'Pilih blok',
+            hint: bloks.isEmpty ? 'Absensi belum di atur' : 'Pilih blok',
             items: bloks
                 .map(
                   (x) => DropdownMenuItem<String>(
@@ -1103,7 +1103,7 @@ class _InputPanel extends StatelessWidget {
                         : Icon(
                             Icons.add_rounded,
                             color: formEnabled ? green : const Color(0xFF78907D),
-                            size: 19,
+                            size: 16,
                           ),
                   ),
                   SizedBox(width: compact ? 10 : 11),
@@ -1207,7 +1207,7 @@ class _SummaryPanel extends StatelessWidget {
             Expanded(
               flex: 10,
               child: Text(
-                'REKAP MUATAN TRUK',
+                'MUATAN TRUK',
                 maxLines: 1,
                 style: TextStyle(
                   color: ink,
@@ -1224,7 +1224,7 @@ class _SummaryPanel extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Daftar muatan untuk truk dan tanggal ini',
+                  'Daftar muatan',
                   maxLines: 1,
                   textAlign: TextAlign.right,
                   style: TextStyle(
@@ -1290,7 +1290,7 @@ class _EmptyRekapPanel extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'REKAP MUATAN TRUK',
+                'MUATAN TRUK',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -1307,7 +1307,7 @@ class _EmptyRekapPanel extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Daftar muatan untuk truk dan tanggal ini',
+                  'Daftar muatan',
                   maxLines: 1,
                   style: TextStyle(
                     color: const Color(0xFF748078),

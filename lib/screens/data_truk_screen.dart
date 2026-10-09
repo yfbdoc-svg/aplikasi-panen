@@ -479,7 +479,7 @@ class _DataTrukScreenState extends State<DataTrukScreen> {
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(
                           metrics.pagePadding,
-                          metrics.compact ? 5 : 6,
+                          metrics.compact ? 10 : 12,
                           metrics.pagePadding,
                           28,
                         ),

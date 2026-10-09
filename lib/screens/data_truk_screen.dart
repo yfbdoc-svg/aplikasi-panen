@@ -1217,24 +1217,6 @@ class _SummaryPanel extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
-            Expanded(
-              flex: 12,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'Daftar muatan',
-                  maxLines: 1,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: muted,
-                    fontSize: compact ? 8.8 : 9.5,
-                    height: 1.05,
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
         SizedBox(height: compact ? 7 : 8),
@@ -1298,22 +1280,6 @@ class _EmptyRekapPanel extends StatelessWidget {
                   fontSize: compact ? 15.0 : 15.8,
                   height: 1.05,
                   fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Flexible(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'Daftar muatan',
-                  maxLines: 1,
-                  style: TextStyle(
-                    color: const Color(0xFF748078),
-                    fontSize: compact ? 8.8 : 9.5,
-                    height: 1.05,
-                  ),
                 ),
               ),
             ),
